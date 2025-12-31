@@ -16,8 +16,8 @@ export async function saveEmail(email: string) {
 
   console.log(`[LEAD CAPTURADO] Email: ${email} - Fecha: ${new Date().toISOString()}`)
 
-  // Si no has configurado los IDs, solo guardamos en log y terminamos
-  if (GOOGLE_FORM_ID === "TU_FORM_ID_AQUI") {
+  // Validación básica
+  if (!GOOGLE_FORM_ID || GOOGLE_FORM_ID === "TU_FORM_ID_AQUI") {
     console.log("⚠️ Google Form no configurado. El email solo se guardó en los logs del servidor.")
     return { success: true }
   }
