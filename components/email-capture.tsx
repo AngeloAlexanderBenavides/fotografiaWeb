@@ -40,7 +40,7 @@ export function EmailCapture({ onComplete }: EmailCaptureProps) {
           <div className="relative">
             <input
               type="email"
-              placeholder="angeloalexander@lexben.dev"
+              placeholder="ejemplo@ejemplo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-orange-500 transition-colors"
