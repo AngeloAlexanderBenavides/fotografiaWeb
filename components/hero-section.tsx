@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 interface HeroSectionProps {
@@ -90,9 +91,9 @@ export function HeroSection({ onStart }: HeroSectionProps) {
           <div className="flex items-center gap-4 mb-8 opacity-90 hover:opacity-100 transition-opacity cursor-default">
               {/* Avatares superpuestos (Look Premium) */}
               <div className="flex -space-x-3">
-                  <img className="w-9 h-9 rounded-full border-[2px] border-black object-cover" src="https://i.pravatar.cc/100?img=33" alt="" />
-                  <img className="w-9 h-9 rounded-full border-[2px] border-black object-cover" src="https://i.pravatar.cc/100?img=47" alt="" />
-                  <img className="w-9 h-9 rounded-full border-[2px] border-black object-cover" src="https://i.pravatar.cc/100?img=12" alt="" />
+                  <Image className="rounded-full border-[2px] border-black object-cover" src="https://i.pravatar.cc/100?img=33" alt="" width={36} height={36} />
+                  <Image className="rounded-full border-[2px] border-black object-cover" src="https://i.pravatar.cc/100?img=47" alt="" width={36} height={36} />
+                  <Image className="rounded-full border-[2px] border-black object-cover" src="https://i.pravatar.cc/100?img=12" alt="" width={36} height={36} />
               </div>
 
               {/* Texto Explicativo */}

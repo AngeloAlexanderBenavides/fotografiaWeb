@@ -9,7 +9,7 @@ export async function saveEmail(email: string) {
   // 5. Escribe un email de prueba (ej: test@test.com) y dale a "Obtener enlace".
   // 6. Copia el enlace y pégalo en un bloc de notas. Se verá algo así:
   //    https://docs.google.com/forms/d/e/1FAIpQLSf...ID_LARGO.../viewform?usp=pp_url&entry.12345678=test@test.com
-  
+
   // 7. Extrae los dos datos que necesitamos:
   const GOOGLE_FORM_ID = "1FAIpQLSeRbTzdjBge5w2jhI7A_jBSfbrpig8zn5FWPodBZePJuBhpuQ" // Lo que está entre /d/e/ y /viewform
   const GOOGLE_ENTRY_ID = "entry.1440890220" // Lo que está después de &entry. (incluye el número)
@@ -32,7 +32,7 @@ export async function saveEmail(email: string) {
       method: 'POST',
       body: formData,
     })
-    
+
     return { success: true }
   } catch (error) {
     console.error("Error enviando a Google Sheets:", error)

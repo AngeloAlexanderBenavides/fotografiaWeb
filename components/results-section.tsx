@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import type { QuizAnswers } from "@/app/page"
+import Image from "next/image"
 import { AreaChart, Area, ResponsiveContainer, XAxis, Tooltip } from "recharts"
 import { X, TrendingUp } from "lucide-react"
 
@@ -56,12 +57,16 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
           >
             <X className="w-8 h-8" />
           </button>
-          <img
-            src={selectedImage}
-            alt="Full size"
-            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="relative w-full h-full max-w-5xl max-h-[90vh]">
+            <Image
+              src={selectedImage}
+              alt="Full size"
+              fill
+              className="object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              sizes="100vw"
+            />
+          </div>
         </div>
       )}
 
@@ -130,10 +135,18 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
           {/* Galería Mentor (Slider simple CSS) */}
           <div className="w-full md:w-1/2 h-56 md:h-full relative overflow-hidden">
              <div className="absolute inset-0 flex animate-slider">
-                <img src="/kike1.JPG" className="w-full h-full object-cover flex-shrink-0" alt="Kike 1" />
-                <img src="/kike2.jpg" className="w-full h-full object-cover flex-shrink-0" alt="Kike 2" />
-                <img src="/kike3.JPG" className="w-full h-full object-cover flex-shrink-0" alt="Kike 3" />
-                <img src="/kike1.JPG" className="w-full h-full object-cover flex-shrink-0" alt="Kike 1 Loop" />
+                <div className="relative w-full h-full flex-shrink-0">
+                  <Image src="/kike1.JPG" alt="Kike 1" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" priority />
+                </div>
+                <div className="relative w-full h-full flex-shrink-0">
+                  <Image src="/kike2.jpg" alt="Kike 2" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                </div>
+                <div className="relative w-full h-full flex-shrink-0">
+                  <Image src="/kike3.JPG" alt="Kike 3" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                </div>
+                <div className="relative w-full h-full flex-shrink-0">
+                  <Image src="/kike1.JPG" alt="Kike 1 Loop" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                </div>
              </div>
              <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg text-xs border border-white/10 z-10">
               📍 Kike Arnaiz - Instructor
@@ -275,7 +288,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                   className="row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
                   onClick={() => setSelectedImage("/recurso2.JPG")}
                 >
-                    <img src="/recurso2.JPG" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Retrato" />
+                    <Image src="/recurso2.JPG" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Retrato" sizes="(max-width: 768px) 50vw, 25vw" />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                         <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Retrato</span>
@@ -290,7 +303,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                   className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
                   onClick={() => setSelectedImage("/recurso1.jpg")}
                 >
-                    <img src="/recurso1.jpg" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Paisaje" />
+                    <Image src="/recurso1.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Paisaje" sizes="(max-width: 768px) 100vw, 50vw" />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                         <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Paisaje</span>
@@ -305,8 +318,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                   className="row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
                   onClick={() => setSelectedImage("/recurso6.jpg")}
                 >
-                    <img src="/recurso6.jpg"
-                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Editorial" />
+                    <Image src="/recurso6.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Editorial" sizes="(max-width: 768px) 50vw, 25vw" />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                         <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Editorial</span>
@@ -321,7 +333,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                   className="relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
                   onClick={() => setSelectedImage("/recurso3.jpg")}
                 >
-                    <img src="/recurso3.jpg" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Texturas" />
+                    <Image src="/recurso3.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Texturas" sizes="(max-width: 768px) 50vw, 25vw" />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                         <span className="text-white font-bold text-sm">Texturas</span>
@@ -333,7 +345,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                   className="relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
                   onClick={() => setSelectedImage("/recurso4.jpg")}
                 >
-                    <img src="/recurso4.jpg" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Lifestyle" />
+                    <Image src="/recurso4.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Lifestyle" sizes="(max-width: 768px) 50vw, 25vw" />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                         <span className="text-white font-bold text-sm">Lifestyle</span>
@@ -345,8 +357,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                   className="col-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
                   onClick={() => setSelectedImage("/recurso5.jpg")}
                 >
-                    <img src="/recurso5.jpg"
-                         className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110" alt="Aventura" />
+                    <Image src="/recurso5.jpg" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-110" alt="Aventura" sizes="(max-width: 768px) 100vw, 50vw" />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
                         <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Aventura</span>
