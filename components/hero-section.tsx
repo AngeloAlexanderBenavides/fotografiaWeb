@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ArrowRight, Sparkles } from "lucide-react"
+import { YouTubeEmbed } from "@next/third-parties/google"
 
 interface HeroSectionProps {
   onStart: () => void
@@ -54,16 +55,8 @@ export function HeroSection({ onStart }: HeroSectionProps) {
         {/* Contenedor del Video con Efecto Glow */}
         <div className="relative group">
           <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black">
-            <video
-              src="/curso.m4v"
-              controls
-              playsInline
-              className="w-full h-full object-contain md:object-cover"
-              poster="/recurso1.jpg"
-            >
-              Tu navegador no soporta videos.
-            </video>
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black [&>div]:w-full [&>div]:h-full">
+            <YouTubeEmbed videoid="TSG8-YVlsCg" params="controls=1&rel=0&modestbranding=1" style="width: 100%; height: 100%;" />
           </div>
         </div>
       </div>

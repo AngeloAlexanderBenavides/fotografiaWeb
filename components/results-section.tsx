@@ -136,7 +136,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
           <div className="w-full md:w-1/2 h-56 md:h-full relative overflow-hidden">
              <div className="absolute inset-0 flex animate-slider">
                 <div className="relative w-full h-full flex-shrink-0">
-                  <Image src="/kike1.JPG" alt="Kike 1" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" priority />
+                  <Image src="/kike1.JPG" alt="Kike 1" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
                 </div>
                 <div className="relative w-full h-full flex-shrink-0">
                   <Image src="/kike2.jpg" alt="Kike 2" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
