@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { ArrowRight, Sparkles } from "lucide-react"
-import { YouTubeEmbed } from "@next/third-parties/google"
 
 interface HeroSectionProps {
   onStart: () => void
@@ -11,14 +10,24 @@ interface HeroSectionProps {
 
 export function HeroSection({ onStart }: HeroSectionProps) {
   const [showCTA, setShowCTA] = useState(false)
+  const interactionTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
-    // El botón aparecerá 10 segundos después para "retener" la atención en el video primero
-    const timer = setTimeout(() => {
-      setShowCTA(true)
-    }, 10000)
-    return () => clearTimeout(timer)
+    return () => {
+      if (interactionTimerRef.current) {
+        clearTimeout(interactionTimerRef.current)
+      }
+    }
   }, [])
+
+  function startShowCtaTimer(delay = 15000) {
+    if (showCTA) return
+    if (interactionTimerRef.current) return
+    interactionTimerRef.current = window.setTimeout(() => {
+      setShowCTA(true)
+      interactionTimerRef.current = null
+    }, delay)
+  }
 
   return (
     <section id="step-landing" className="flex flex-col items-center text-center relative py-8 md:py-20 overflow-hidden">
@@ -55,8 +64,16 @@ export function HeroSection({ onStart }: HeroSectionProps) {
         {/* Contenedor del Video con Efecto Glow */}
         <div className="relative group">
           <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black [&>div]:w-full [&>div]:h-full">
-            <YouTubeEmbed videoid="TSG8-YVlsCg" params="controls=1&rel=0&modestbranding=1" style="width: 100%; height: 100%;" />
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-black flex items-center justify-center [&>video]:w-full [&>video]:h-full">
+            <video
+              src="/curso.m4v"
+              controls
+              playsInline
+              poster="/recurso1.jpg"
+              className="w-full h-full object-cover"
+              onClick={() => startShowCtaTimer()}
+              onPlay={() => startShowCtaTimer()}
+            />
           </div>
         </div>
       </div>
