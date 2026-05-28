@@ -18,9 +18,21 @@ const projectionData = [
   { name: "Año 1", value: 2000 },
 ]
 
+const initialOfferCountdown = 4 * 3600 + 59 * 60 + 12
+
+function formatCountdown(totalSeconds: number) {
+  const safeSeconds = Math.max(0, totalSeconds)
+  const hours = Math.floor(safeSeconds / 3600)
+  const minutes = Math.floor((safeSeconds % 3600) / 60)
+  const seconds = safeSeconds % 60
+
+  return [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":")
+}
+
 export function ResultsSection({ answers }: ResultsSectionProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [counter, setCounter] = useState(0)
+  const [offerCountdown, setOfferCountdown] = useState(initialOfferCountdown)
 
   useEffect(() => {
     const duration = 2000
@@ -40,6 +52,14 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
     }, interval)
 
     return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setOfferCountdown((currentTime) => Math.max(0, currentTime - 1))
+    }, 1000)
+
+    return () => window.clearInterval(timer)
   }, [])
 
   return (
@@ -266,110 +286,6 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
           <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-orange-500/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-orange-500/20 transition-colors"></div>
         </div>
 
-        {/* C. GALERÍA COMERCIAL (MOSAICO GRID) - REEMPLAZA A LA ANTERIOR */}
-        <div className="md:col-span-12 mt-8 mb-8">
-            {/* TITULO DE SECCIÓN */}
-            <div className="w-full mb-6 flex justify-between items-end px-2">
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Galería Comercial</h2>
-                    <p className="text-gray-400 text-sm mt-1">Fotos del portafolio de Kike Arnaiz.</p>
-                </div>
-                <div className="hidden md:flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-white/20"></div>
-                    <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-                </div>
-            </div>
-
-            {/* EL MOSAICO GRID */}
-            <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[140px] md:auto-rows-[200px] grid-flow-dense">
-
-                {/* 1. FOTO VERTICAL (Alta) - Recurso 2 */}
-                <div
-                  className="row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
-                  onClick={() => setSelectedImage("/recurso2.JPG")}
-                >
-                    <Image src="/recurso2.JPG" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Retrato" sizes="(max-width: 768px) 50vw, 25vw" />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Retrato</span>
-                        <div className="flex justify-between items-end">
-                            <span className="text-white font-bold">Cámara en Mano</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 2. FOTO GRANDE (2x2) - Recurso 1 */}
-                <div
-                  className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
-                  onClick={() => setSelectedImage("/recurso1.jpg")}
-                >
-                    <Image src="/recurso1.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Paisaje" sizes="(max-width: 768px) 100vw, 50vw" />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Paisaje</span>
-                        <div className="flex justify-between items-end">
-                            <span className="text-white font-bold">Alpes Suizos</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 3. FOTO VERTICAL (Alta) - Recurso 6 */}
-                <div
-                  className="row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
-                  onClick={() => setSelectedImage("/recurso6.jpg")}
-                >
-                    <Image src="/recurso6.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Editorial" sizes="(max-width: 768px) 50vw, 25vw" />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Editorial</span>
-                        <div className="flex justify-between items-end">
-                            <span className="text-white font-bold">Minimalismo</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 4. FOTO CUADRADA (Normal) - Recurso 3 */}
-                <div
-                  className="relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
-                  onClick={() => setSelectedImage("/recurso3.jpg")}
-                >
-                    <Image src="/recurso3.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Texturas" sizes="(max-width: 768px) 50vw, 25vw" />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-white font-bold text-sm">Texturas</span>
-                    </div>
-                </div>
-
-                {/* 5. FOTO CUADRADA (Normal) - Recurso 4 */}
-                <div
-                  className="relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
-                  onClick={() => setSelectedImage("/recurso4.jpg")}
-                >
-                    <Image src="/recurso4.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Lifestyle" sizes="(max-width: 768px) 50vw, 25vw" />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-white font-bold text-sm">Lifestyle</span>
-                    </div>
-                </div>
-
-                {/* 6. FOTO PANORÁMICA (Ancha) - Recurso 5 */}
-                <div
-                  className="col-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
-                  onClick={() => setSelectedImage("/recurso5.jpg")}
-                >
-                    <Image src="/recurso5.jpg" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-110" alt="Aventura" sizes="(max-width: 768px) 100vw, 50vw" />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                        <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Aventura</span>
-                        <div className="flex justify-between items-end">
-                            <span className="text-white font-bold">Senderismo Solo</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
         {/* D. LA OFERTA (CTA PRINCIPAL) - AHORA FULL WIDTH */}
         <div className="md:col-span-12 mt-8">
             {/* TARJETA DE OFERTA "CONVERSION MONSTER" */}
@@ -392,7 +308,7 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                         </div>
                         {/* Contador Regresivo Simulado */}
                         <div className="text-xs font-mono text-orange-300 tabular-nums">
-                            04:59:12
+                          {formatCountdown(offerCountdown)}
                         </div>
                     </div>
 
@@ -499,9 +415,113 @@ export function ResultsSection({ answers }: ResultsSectionProps) {
                 </div>
             </div>
         </div>
-      </div>
+        </div>
 
-      {/* PRUEBA SOCIAL (Testimonios) */}
+        {/* C. GALERÍA COMERCIAL (MOSAICO GRID) - REEMPLAZA A LA ANTERIOR */}
+        <div className="md:col-span-12 mt-8 mb-8">
+          {/* TITULO DE SECCIÓN */}
+          <div className="w-full mb-6 flex justify-between items-end px-2">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Galería Comercial</h2>
+              <p className="text-gray-400 text-sm mt-1">Fotos del portafolio de Kike Arnaiz.</p>
+            </div>
+            <div className="hidden md:flex gap-2">
+              <div className="w-2 h-2 rounded-full bg-white/20"></div>
+              <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+            </div>
+          </div>
+
+          {/* EL MOSAICO GRID */}
+          <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[140px] md:auto-rows-[200px] grid-flow-dense">
+
+            {/* 1. FOTO VERTICAL (Alta) - Recurso 2 */}
+            <div
+            className="row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
+            onClick={() => setSelectedImage("/recurso2.JPG")}
+            >
+              <Image src="/recurso2.JPG" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Retrato" sizes="(max-width: 768px) 50vw, 25vw" />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Retrato</span>
+                <div className="flex justify-between items-end">
+                  <span className="text-white font-bold">Cámara en Mano</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. FOTO GRANDE (2x2) - Recurso 1 */}
+            <div
+            className="col-span-2 row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
+            onClick={() => setSelectedImage("/recurso1.jpg")}
+            >
+              <Image src="/recurso1.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Paisaje" sizes="(max-width: 768px) 100vw, 50vw" />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Paisaje</span>
+                <div className="flex justify-between items-end">
+                  <span className="text-white font-bold">Alpes Suizos</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. FOTO VERTICAL (Alta) - Recurso 6 */}
+            <div
+            className="row-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
+            onClick={() => setSelectedImage("/recurso6.jpg")}
+            >
+              <Image src="/recurso6.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Editorial" sizes="(max-width: 768px) 50vw, 25vw" />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Editorial</span>
+                <div className="flex justify-between items-end">
+                  <span className="text-white font-bold">Minimalismo</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. FOTO CUADRADA (Normal) - Recurso 3 */}
+            <div
+            className="relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
+            onClick={() => setSelectedImage("/recurso3.jpg")}
+            >
+              <Image src="/recurso3.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Texturas" sizes="(max-width: 768px) 50vw, 25vw" />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <span className="text-white font-bold text-sm">Texturas</span>
+              </div>
+            </div>
+
+            {/* 5. FOTO CUADRADA (Normal) - Recurso 4 */}
+            <div
+            className="relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
+            onClick={() => setSelectedImage("/recurso4.jpg")}
+            >
+              <Image src="/recurso4.jpg" fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt="Lifestyle" sizes="(max-width: 768px) 50vw, 25vw" />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <span className="text-white font-bold text-sm">Lifestyle</span>
+              </div>
+            </div>
+
+            {/* 6. FOTO PANORÁMICA (Ancha) - Recurso 5 */}
+            <div
+            className="col-span-2 relative group rounded-2xl overflow-hidden border border-white/10 cursor-pointer"
+            onClick={() => setSelectedImage("/recurso5.jpg")}
+            >
+              <Image src="/recurso5.jpg" fill className="object-cover object-center transition-transform duration-700 group-hover:scale-110" alt="Aventura" sizes="(max-width: 768px) 100vw, 50vw" />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <span className="text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-1">Aventura</span>
+                <div className="flex justify-between items-end">
+                  <span className="text-white font-bold">Senderismo Solo</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* PRUEBA SOCIAL (Testimonios) */}
       <div className="mt-16 text-center fade-up delay-200">
         <p className="text-xs text-gray-500 uppercase tracking-widest mb-6">Lo que dicen los alumnos</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">

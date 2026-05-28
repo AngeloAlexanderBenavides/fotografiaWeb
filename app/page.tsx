@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { HeroSection } from "@/components/hero-section"
 import { QuizSection } from "@/components/quiz-section"
 import { EmailCapture } from "@/components/email-capture"
@@ -14,6 +14,8 @@ export type QuizAnswers = {
   objective: string
 }
 
+const progressStorageKey = "fotografiaWeb.quizProgress"
+
 export default function Page() {
   const [step, setStep] = useState<"hero" | "quiz" | "email" | "results">("hero")
   const [answers, setAnswers] = useState<QuizAnswers>({
@@ -21,6 +23,41 @@ export default function Page() {
     manualMode: "",
     objective: "",
   })
+  const [hasHydrated, setHasHydrated] = useState(false)
+
+  useEffect(() => {
+    const savedProgress = window.localStorage.getItem(progressStorageKey)
+
+    if (!savedProgress) {
+      setHasHydrated(true)
+      return
+    }
+
+    try {
+      const parsedProgress = JSON.parse(savedProgress) as {
+        step?: "hero" | "quiz" | "email" | "results"
+        answers?: QuizAnswers
+      }
+
+      if (parsedProgress.answers) {
+        setAnswers(parsedProgress.answers)
+      }
+
+      if (parsedProgress.step) {
+        setStep(parsedProgress.step)
+      }
+    } catch {
+      window.localStorage.removeItem(progressStorageKey)
+    }
+
+    setHasHydrated(true)
+  }, [])
+
+  useEffect(() => {
+    if (!hasHydrated) return
+
+    window.localStorage.setItem(progressStorageKey, JSON.stringify({ step, answers }))
+  }, [step, answers, hasHydrated])
 
   const startQuiz = () => {
     setStep("quiz")
@@ -35,6 +72,16 @@ export default function Page() {
     // Enviamos el email al servidor (Server Action)
     await saveEmail(email)
     setStep("results")
+  }
+
+  const resetProgress = () => {
+    window.localStorage.removeItem(progressStorageKey)
+    setAnswers({
+      equipment: "",
+      manualMode: "",
+      objective: "",
+    })
+    setStep("hero")
   }
 
   return (
@@ -59,6 +106,14 @@ export default function Page() {
         {step === "results" && (
           <>
             <ResultsSection answers={answers} />
+            <div className="-mt-6 mb-8 flex justify-center">
+              <button
+                onClick={resetProgress}
+                className="text-xs uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-colors"
+              >
+                Reiniciar progreso
+              </button>
+            </div>
             <Footer />
           </>
         )}

@@ -68,6 +68,8 @@ export function HeroSection({ onStart }: HeroSectionProps) {
             <video
               src="/curso.m4v"
               controls
+              controlsList="nofullscreen nodownload noplaybackrate"
+              disablePictureInPicture
               playsInline
               poster="/recurso1.jpg"
               className="w-full h-full object-cover"
